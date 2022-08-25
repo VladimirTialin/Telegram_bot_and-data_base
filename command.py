@@ -286,7 +286,7 @@ def InputNewName(update: Update, context: CallbackContext):
     global _newName
     user = update.message.from_user
     text = update.message.text
-    logger.info(f"Пользователь {user.first_name} изменил имя сотрудника '{text.lower()}'")
+    logger.info(f"Пользователь {user.first_name} изменил имя сотрудника '{text}'")
     _newName = update.message.text
     CangeName(_db,_newName,_id)
     markup_key = KeyboardCange(update, context)
@@ -351,18 +351,41 @@ def MenuCange(update: Update, context: CallbackContext):
     text = update.message.text
     try:
         id=int(text)
-        if type(id)==int: msg="Для изменения записи нажмите кнопку:"
-    except: msg=f'Меняем {text.lower()}'
+        if type(id)==int: msg="Для изменения записи выберите кнопку:"
+    except: msg=f'Меняем: {text}'
+    if text=="Отменить": msg="Для изменения записи выберите кнопку:"
     if text=="Выйти": msg="Выход"
-    logger.info(f"Пользователь {user.first_name} выбрал для изменения '{text.lower()}'")
+    logger.info(f"Пользователь {user.first_name} выбрал для изменения '{text}'")
     markup_key = KeyboardCange(update, context)
     update.message.reply_text(f'{msg}',reply_markup=markup_key)
     match text:
-        case "Ф.И.О.": return CANGENAME
-        case "Дата рождения": return CANGEBIRTH
-        case "Телефон": return CANGETEL
-        case "Отдел": return CANGEDEP
-        case "Должность": return CANGEPOS
+        case "Ф.И.О.": 
+            markup_key1 = BtnCancel(update, context)
+            update.message.reply_text('Введите новые данные:',reply_markup=markup_key1)   
+            return CANGENAME
+        case "Дата рождения":
+            markup_key1 = BtnCancel(update, context)
+            update.message.reply_text('Введите новые данные:',reply_markup=markup_key1)             
+            return CANGEBIRTH
+        case "Телефон":
+            markup_key1 = BtnCancel(update, context)
+            update.message.reply_text('Введите новые данные:',reply_markup=markup_key1) 
+            return CANGETEL
+        case "Отдел":
+            markup_key1 = BtnCancel(update, context)
+            update.message.reply_text('Введите новые данные:',reply_markup=markup_key1)    
+            return CANGEDEP
+        case "Должность": 
+            markup_key1 = BtnCancel(update, context)
+            update.message.reply_text('Введите новые данные:',reply_markup=markup_key1) 
+            return CANGEPOS
         case "Выйти": 
             SendMenu(update, context)
             return SELECT
+        
+def CancelCange(update: Update, context: CallbackContext):
+    user = update.message.from_user
+    logger.info(
+        f"Пользователь {user.first_name} отменил изменение записи")
+    MenuCange(update,context)
+    return CANGE
