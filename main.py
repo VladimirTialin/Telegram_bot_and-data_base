@@ -24,12 +24,12 @@ conv_handler = ConversationHandler(
         INPUTID: [MessageHandler(Filters.text('Отменить'), CancelRemove),MessageHandler(Filters.text, InputID)],
         CONFIRMREM: [MessageHandler(Filters.text('Удалить'), ConfirmRemove),MessageHandler(Filters.text('Отменить'), CancelRemove)],
         CANGE: [MessageHandler(Filters.text('Отменить'), CancelAdd),MessageHandler(Filters.text, MenuCange)],
-        CANGEID:[MessageHandler(Filters.text('Отменить'), CancelAdd),MessageHandler(Filters.text, CangeID)],
-        CANGENAME: [MessageHandler(Filters.text, InputNewName)],
-        CANGEBIRTH: [MessageHandler(Filters.text, InputNewBirth)],        
-        CANGETEL: [MessageHandler(Filters.text, InputNewTel)],
-        CANGEDEP: [MessageHandler(Filters.text, InputNewDep)],
-        CANGEPOS: [MessageHandler(Filters.text, InputNewPos)]},
+        CANGEID:[MessageHandler(Filters.text('Отменить'), CancelCange),MessageHandler(Filters.text, CangeID)],
+        CANGENAME: [MessageHandler(Filters.text('Отменить'), CancelCange),MessageHandler(Filters.text, InputNewName)],
+        CANGEBIRTH: [MessageHandler(Filters.text('Отменить'), CancelCange),MessageHandler(Filters.text, InputNewBirth)],        
+        CANGETEL: [MessageHandler(Filters.text('Отменить'), CancelCange),MessageHandler(Filters.text, InputNewTel)],
+        CANGEDEP: [MessageHandler(Filters.text('Отменить'), CancelCange),MessageHandler(Filters.text, InputNewDep)],
+        CANGEPOS: [MessageHandler(Filters.text('Отменить'), CancelCange),MessageHandler(Filters.text, InputNewPos)]},
     fallbacks=[MessageHandler(Filters.text('Выход'), Exit)]
     )
 updater.dispatcher.add_handler(conv_handler)
